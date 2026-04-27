@@ -1,0 +1,31 @@
+# Netlify configuration for the alpha-scanner project.
+#
+# This file tells Netlify:
+#   1. The site is a static HTML page at the project root (index.html).
+#   2. There is one serverless function at netlify/functions/tradier.js.
+#
+# To deploy:
+#   - Connect this folder to a Netlify site (drag-and-drop the whole folder
+#     in the Netlify UI, or run `netlify deploy --prod` from the project
+#     folder using Netlify CLI, or git-deploy from a connected repo).
+#   - The function will be available at:
+#       https://YOUR-SITE.netlify.app/.netlify/functions/tradier
+#
+# No environment variables are strictly required — the user pastes their
+# Tradier sandbox token into the app's Config UI, and it gets sent via
+# the X-Tradier-Token header on each request. If you prefer to keep the
+# token server-side, set TRADIER_TOKEN in Netlify's environment settings
+# and the function will use it as a fallback.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  # Default Node.js runtime (Netlify supports Node 18+ which has native fetch)
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/tradier"
+  to = "/.netlify/functions/tradier"
+  status = 200
